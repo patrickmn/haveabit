@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>{% block title %}Have A Bit Of [...]{% endblock %}</title>
+<meta name="robots" content="noodp, noydir" />
+<meta name="description" content="Have a bit of [...] -- the inspiration quote of the day page." />
+<meta name="keywords" content="haveabitof, have a bit of" />
+<link rel="stylesheet" href="/style/haveabitof.css" type="text/css" media="screen, projection" />
+<link rel="SHORTCUT ICON" href="/favicon.ico" />
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-270876-27']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+<body>
+<div id="container">
+    <div id="header">
+        <a href="/" title="Have A Bit Of [...]">Have A Bit Of [...]</a>
+    </div>
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+    <div id="footer">
+        <a href="/random" title="Random quote">Random Quote</a> | <a href="/about" title="About">About</a> | <a href="/apihelp" title="API">API</a> | <a href="http://dev.throwingfire.com/projects/haveabitof" title="HaveABitOf - ThrowingFire Labs">Source</a>
+    </div>
+</div>
+</body>
+</html>
