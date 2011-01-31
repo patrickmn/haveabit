@@ -18,8 +18,13 @@ handlers:
 - url: /apihelp
   script: app.py
 
-- url: /reveal
-  script: app.py
+- url: /admin
+  script: admin.py
+  login: admin
+
+- url: /admin/.*
+  script: admin.py
+  login: admin
 
 - url: /cron/gc
   script: cron/gc.py

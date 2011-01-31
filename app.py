@@ -6,7 +6,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 
-import model
+import db
 
 class Request(webapp.RequestHandler):
 
@@ -32,16 +32,6 @@ class ApiHelp(Request):
 
     def get(self):
         self.send(template.render('view/apihelp.html', dict()))
-
-def getAuthor(id=None, name=None):
-    query = model.Author.gql("WHERE id = :1 AND name = :2", id, name).fetch(1)
-    return query[0]
-
-def getQuote(id=None, author=None):
-    query = model.Quote.gql("WHERE id = :1 AND author = :2", id, author).fetch(1)
-    if not query:
-        query = model.Quote.gql("").fetch(1)
-    return query[0]
 
 application = webapp.WSGIApplication(
                                      [('/', MainPage),
