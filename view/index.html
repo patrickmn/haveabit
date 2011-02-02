@@ -3,5 +3,18 @@
 {% block title %}Have A Bit Of [...]{% endblock %}
 
 {% block content %}
-<p>Have A Bit Of [...] is....</p>
+<div id="left">
+<p>Be inspired by some of the greatest people who ever lived.</p>
+
+<p>Have a bit of:</p>
+<ul>
+{% for author in authors %}
+<li><a href="/{{ author.0 }}" title="{{ author.1 }}"><strong>{{ author.1 }}</strong></a> &mdash; {{ author.2 }}</li>
+{% endfor %}
+</ul>
+</div>
+{% endblock %}
+
+{% block footer %}
+        <a href="/random" title="Random quote">Random Quote</a> | <a href="/about" title="About">About</a> | <a href="/apihelp" title="API">API</a> | <a href="http://dev.throwingfire.com/projects/haveabitof" title="HaveABitOf - ThrowingFire Labs">Source</a>
 {% endblock %}

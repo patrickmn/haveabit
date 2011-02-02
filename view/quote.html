@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}{{ quote.name }}{% endblock %}
+
+{% block headline %}Have A Bit Of {{ author.name }}{% endblock %}
+
+{% block content %}
+{% if quote.img_url %}
+<img src="{{ quote.img_url }}" title="{{ quote.name }}" alt="{{ quote.name }}" />
+{% else %}{% if quote.vid_url %}
+Video
+{% else %}{% if author.img_url %}
+<img src="{{ author.img_url }}" title="{{ author.name }}" alt="{{ author.name }}" />
+{% endif %}{% endif %}{% endif %}
+
+<br /><br />
+
+<h1>{{ quote.name }}</h1>
+<br />
+<div id="left">
+<div id="quote">
+<div>
+<p>{{ quote.text|linebreaks }}</p>
+<br />
+</div>
+</div>
+</div>
+<p><strong>{{ author.name }}</strong>, {{ author.description }}.</p>
+{% endblock %}
+
+{% block footer %}
+<p><a href="/{{ author.slug }}" title="Have A Bit Of {{ author.name }}">More {{ author.name }}</a> | <a href="/random" title="Have A Bit Of Random">Random</a> | <a href="/" title="Have A Bit Of [...]">Back</a></p>
+{% endblock %}
+

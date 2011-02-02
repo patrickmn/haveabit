@@ -17,12 +17,49 @@ class Request(webapp.RequestHandler):
 class MainPage(Request):
 
     def get(self):
-        self.send(getStaticPage('index', 'view/index.html'))
+        template_values = {
+            'authors': db.getAuthors(),
+        }
+        self.send(getPage('index', 'view/index.html', template_values))
+
+class QuotePage(Request):
+
+    def get(self, author_slug=None, id=None):
+        author = None
+        if id:
+            id = int(id)
+            quote = db.getQuoteByID(id)
+            if quote:
+                author = quote.author
+            else:
+                self.error(404)
+                self.send(getNotFoundPage())
+                return
+        elif author_slug:
+            author = db.getAuthor(author_slug)
+            if author:
+                quote = db.getRandomQuote(author)
+            else:
+                self.error(404)
+                self.send(getNotFoundPage())
+                return
+        else:
+            quote = db.getRandomQuote()
+            author = quote.author
+        proper_url = '/%s/%d' % (author.slug, quote.key().id())
+        if not self.request.path == proper_url:
+            self.redirect(proper_url)
+        else:
+            template_values = {
+                'author': author,
+                'quote': quote,
+            }
+            self.send(getPage('quote|%d' % quote.key().id(), 'view/quote.html', template_values))
 
 class AboutPage(Request):
 
     def get(self):
-        self.send(getStaticPage('about', 'view/about.html'))
+        self.send(getPage('about', 'view/about.html'))
 
 class Api(Request):
 
@@ -32,13 +69,16 @@ class Api(Request):
 class ApiHelp(Request):
 
     def get(self):
-        self.send(getStaticPage('apihelp', 'view/apihelp.html'))
+        self.send(getPage('apihelp', 'view/apihelp.html'))
 
-def getStaticPage(name, file):
+def getNotFoundPage():
+    return getPage('404', 'view/404.html')
+
+def getPage(name, file, dict=dict()):
     memcachekey = 'page|' + name
     val = memcache.get(memcachekey)
     if val is None:
-        val = template.render(file, dict())
+        val = template.render(file, dict)
         memcache.set(memcachekey, val, page_cache_duration)
     return val
 
@@ -46,7 +86,11 @@ application = webapp.WSGIApplication(
                                      [('/', MainPage),
                                       ('/about', AboutPage),
                                       ('/api', Api),
-                                      ('/apihelp', ApiHelp)],
+                                      ('/apihelp', ApiHelp),
+                                      ('/random', QuotePage),
+                                      (r'/(.*)/(.*)', QuotePage),
+                                      (r'/(.*)', QuotePage),
+                                      ],
                                      debug=False)
 
 if __name__ == '__main__':

@@ -16,36 +16,46 @@ class Request(webapp.RequestHandler):
 class MainPage(Request):
 
     def get(self):
-        self.send(template.render('view/admin/index.html', dict()))
+        authors = db.getAuthors()
+        categories = db.getCategories()
+        template_values = {
+            'authors': authors,
+            'categories': categories,
+        }
+        self.send(template.render('view/admin/index.html', template_values))
 
 class Add(Request):
 
-    def get(self):
-        self.send("Add!")
-
-class Bootstrap(Request):
-
-    def get(self):
-        category = db.Category()
-        author = db.Author()
-        quote = db.Quote()
-        category.name = 'Classic'
-        category.slug = 'classic'
-        category.put()
-        author.name = 'Rene Descartes'
-        author.slug = 'descartes'
-        author.description = 'Rene Descartes was a natural philosopher, and writer who spent most of his adult life in the Dutch Republic. He has been dubbed the "Father of Modern Philosophy", and much subsequent Western philosophy is a response to his writings, which are studied closely to this day.'
-        author.put()
-        quote.text = 'Cogito ergo sum.'
-        quote.author = author
-        quote.categories.append(category.key())
-        quote.put()
-        self.send("Added Descartes quote.")
+    def post(self, type):
+        res = 0
+        if type == 'category':
+            name = self.request.get('name')
+            slug = self.request.get('slug')
+            if db.addCategory(name, slug):
+                res = 1
+            self.redirect('/admin?res=%d' % res)
+        elif type == 'author':
+            name = self.request.get('name')
+            slug = self.request.get('slug')
+            description = self.request.get('description')
+            img_url = self.request.get('img_url')
+            if db.addAuthor(name, slug, description, img_url):
+                res = 1
+            self.redirect('/admin?res=%d' % res)
+        elif type == 'quote':
+            author = db.getAuthor(self.request.get('author'))
+            categories = self.request.get_all('category')
+            name = self.request.get('name')
+            text = self.request.get('text')
+            img_url = self.request.get('img_url')
+            vid_url = self.request.get('vid_url')
+            if db.addQuote(author, categories, name, text, img_url, vid_url):
+                res = 1
+            self.redirect('/admin?res=%d' % res)
 
 application = webapp.WSGIApplication(
                                      [('/admin', MainPage),
-                                      (r'/admin/add/(.*)/(.*)', Add),
-                                      ('/admin/bootstrap', Bootstrap),
+                                      (r'/admin/add/(.*)', Add),
                                       ],
                                      debug=True)
 

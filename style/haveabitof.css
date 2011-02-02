@@ -1,11 +1,13 @@
 body
 {
     background-color: white;
-    color: #333;
+    color: #383838;
     font-size: 14px;
     font-family: Verdana, Arial, Sans-Serif;
     text-align: center;
-    margin-top: 10em;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40em;
 }
 
 div#content
@@ -13,12 +15,33 @@ div#content
     margin-top: 36px;
 }
 
+div#quote {
+    background: transparent url(quoleft.png) left top no-repeat;
+}
+
+div#quote div {
+    padding: 0 48px;
+    background: transparent url(quoright.png) right bottom no-repeat;
+}
+
 div#left
 {
-    margin-left: auto;
-    margin-right: auto;
-    width: 40em;
     text-align: left;
+}
+
+div#right
+{
+    text-align: right;
+}
+
+div#floatr {
+    float: right;
+    width: 50%;
+}
+
+div#floatl {
+    float: left;
+    width: 50%;
 }
 
 div#header
@@ -50,6 +73,11 @@ a, a:visited
 a:hover
 {
     text-decoration: underline;
+}
+
+h1
+{
+    font-size: 1em;
 }
 
 h2

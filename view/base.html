@@ -23,13 +23,13 @@
 <body>
 <div id="container">
     <div id="header">
-        <a href="/" title="Have A Bit Of [...]">Have A Bit Of [...]</a>
+        {% block headline %}Have A Bit Of [...]{% endblock %}
     </div>
     <div id="content">
         {% block content %}{% endblock %}
     </div>
     <div id="footer">
-        <a href="/random" title="Random quote">Random Quote</a> | <a href="/about" title="About">About</a> | <a href="/apihelp" title="API">API</a> | <a href="http://dev.throwingfire.com/projects/haveabitof" title="HaveABitOf - ThrowingFire Labs">Source</a>
+        {% block footer %}{% endblock %}
     </div>
 </div>
 </body>

@@ -3,5 +3,43 @@
 {% block title %}Have A Bit Of [...] Admin{% endblock %}
 
 {% block content %}
-<p>This is the administration page.</p>
+<h2>Add Quote</h2>
+<div id="left">
+<p><form action="/admin/add/quote" method="post" id="addquoteform">
+    <p>Author: <select name="author">
+    {% for x in authors %}
+        <option value="{{ x.0 }}">{{ x.1 }}</option>
+    {% endfor %}
+    </select></p>
+    <p>Categories:
+    {% for x in categories %}
+        <input type="checkbox" name="category" value="{{ x.0 }}">{{ x.1 }}</input>
+    {% endfor %}
+    <p>Name: <input type="text" name="name" size="25" /></p>
+    <p>Img: <input type="text" name="img_url" size="25" /></p>
+    <p>Vid: <input type="text" name="vid_url" size="25" /></p>
+    <p>Text: <textarea type="textarea" name="text" rows="15" cols="65"></textarea></p>
+    <p><input type="submit" value="Add" /></p>
+</form></p>
+</div>
+
+<h2>Add Author</h2>
+<div id="left">
+<p><form action="/admin/add/author" method="post" id="addauthorform">
+    <p>Name: <input type="text" name="name" size="25" /></p>
+    <p>Slug: <input type="text" name="slug" size="25" /></p>
+    <p>Description: <textarea type="textarea" name="description" rows="5" cols="65"></textarea></p>
+    <p>Img: <input type="text" name="img_url" size="25" /></p>
+    <p><input type="submit" value="Add" /></p>
+</form></p>
+</div>
+
+<h2>Add Category</h2>
+<div id="left">
+<p><form action="/admin/add/category" method="post" id="addcategoryform">
+    <p>Name: <input type="text" name="name" size="25" /></p>
+    <p>Slug: <input type="text" name="slug" size="25" /></p>
+    <p><input type="submit" value="Add" /></p>
+</form></p>
+</div>
 {% endblock %}

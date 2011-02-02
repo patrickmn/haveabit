@@ -40,3 +40,6 @@ handlers:
 - url: /robots.txt
   static_files: media/robots.txt
   upload: media/robots.txt
+
+- url: /.*
+  script: app.py
