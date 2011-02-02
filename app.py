@@ -1,12 +1,13 @@
 #!/usr/bin/env python
-import datetime
 from xml.sax.saxutils import quoteattr, escape
-from google.appengine.api import users
+from google.appengine.api import memcache
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 
 import db
+
+page_cache_duration = 2592000 # How many seconds to cache (static) rendered pages
 
 class Request(webapp.RequestHandler):
 
@@ -16,12 +17,12 @@ class Request(webapp.RequestHandler):
 class MainPage(Request):
 
     def get(self):
-        self.send(template.render('view/index.html', dict()))
+        self.send(getStaticPage('index', 'view/index.html'))
 
 class AboutPage(Request):
 
     def get(self):
-        self.send(template.render('view/about.html', dict()))
+        self.send(getStaticPage('about', 'view/about.html'))
 
 class Api(Request):
 
@@ -31,7 +32,15 @@ class Api(Request):
 class ApiHelp(Request):
 
     def get(self):
-        self.send(template.render('view/apihelp.html', dict()))
+        self.send(getStaticPage('apihelp', 'view/apihelp.html'))
+
+def getStaticPage(name, file):
+    memcachekey = 'page|' + name
+    val = memcache.get(memcachekey)
+    if val is None:
+        val = template.render(file, dict())
+        memcache.set(memcachekey, val, page_cache_duration)
+    return val
 
 application = webapp.WSGIApplication(
                                      [('/', MainPage),
