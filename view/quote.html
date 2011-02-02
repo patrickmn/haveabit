@@ -25,9 +25,11 @@ Video
 </div>
 </div>
 </div>
-<p><strong>{{ author.name }}</strong><br />
+<div id="right">
+<p>&mdash; <strong>{{ author.name }}</strong><br />
 {{ author.description }}</p>
 {% endblock %}
+</div>
 
 {% block footer %}
 <p><a href="/{{ author.slug }}" title="Have A Bit Of {{ author.name }}">More {{ author.name }}</a> | <a href="/random" title="Have A Bit Of Random">Random</a> | <a href="/" title="Have A Bit Of [...]">Back</a></p>
