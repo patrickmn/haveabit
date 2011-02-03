@@ -52,7 +52,9 @@ def getCategories():
     mc_key = 'categorylist'
     val = memcache.get(mc_key)
     if val is None:
-        val = list(Category.all())
+        categories = Category.all()
+        categories.order('name')
+        val = list(categories)
         memcache.set(mc_key, val, quotelist_cache_duration)
     return val
 
@@ -60,7 +62,9 @@ def getAuthors():
     mc_key = 'authorlist'
     val = memcache.get(mc_key)
     if val is None:
-        val = list(Author.all())
+        authors = Author.all()
+        authors.order('name')
+        val = list(authors)
         memcache.set(mc_key, val, quotelist_cache_duration)
     return val
 
