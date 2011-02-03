@@ -11,7 +11,7 @@ class Category(db.Model):
 class Author(db.Model):
     name = db.StringProperty()
     slug = db.StringProperty()
-    description = db.TextProperty()
+    description = db.StringProperty()
     img_url = db.StringProperty()
 
 class Quote(db.Model):
