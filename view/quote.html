@@ -2,7 +2,7 @@
 
 {% block title %}{{ quote.name }} - {{ author.name }}{% endblock %}
 
-{% block headline %}Have A Bit Of {{ author.name }}{% endblock %}
+{% block headline %}Have a Bit of {{ author.name }}{% endblock %}
 
 {% block content %}
 {% if quote.img_url %}
@@ -31,6 +31,6 @@ Video
 </div>
 
 {% block footer %}
-<p><a href="/{{ author.slug }}" title="Have A Bit Of {{ author.name }}">More {{ author.name }}</a> | <a href="/random" title="Have A Bit Of Random">Random</a> | <a href="/" title="Have A Bit Of [...]">Back</a></p>
+<p><a href="/{{ author.slug }}" title="Have a Bit of {{ author.name }}">More {{ author.name }}</a> | <a href="/random" title="Have a Bit of Random">Random</a> | <a href="/" title="Have a Bit">Back</a></p>
 {% endblock %}
 

@@ -7,13 +7,13 @@
 <div id="left">
 <p><form action="/admin/add/quote" method="post" id="addquoteform">
     <p>Author: <select name="author">
-    {% for x in authors %}
-        <option value="{{ x.0 }}">{{ x.1 }}</option>
+    {% for author in authors %}
+        <option value="{{ author.slug }}">{{ author.name }}</option>
     {% endfor %}
     </select></p>
     <p>Categories:
-    {% for x in categories %}
-        <input type="checkbox" name="category" value="{{ x.0 }}">{{ x.1 }}</input>
+    {% for category in categories %}
+        <input type="checkbox" name="category" value="{{ category.slug }}">{{ category.name }}</input>
     {% endfor %}
     <p>Name: <input type="text" name="name" size="25" /></p>
     <p>Img: <input type="text" name="img_url" size="25" /></p>

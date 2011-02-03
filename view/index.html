@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Have A Bit Of [...]{% endblock %}
+{% block title %}Have a Bit{% endblock %}
 
 {% block content %}
 <div id="left">
@@ -9,7 +9,7 @@
 <p>Have a bit of:</p>
 <ul>
 {% for author in authors %}
-<li><a href="/{{ author.0 }}" title="{{ author.1 }}"><strong>{{ author.1 }}</strong></a></li>
+<li><a href="/{{ author.slug }}" title="{{ author.name }}"><strong>{{ author.name }}</strong></a></li>
 {% endfor %}
 </ul>
 </div>

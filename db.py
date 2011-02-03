@@ -1,5 +1,8 @@
 import random
 from google.appengine.ext import db
+from google.appengine.api import memcache
+
+quotelist_cache_duration = 3600 # How many seconds to cache lists of quotes
 
 class Category(db.Model):
     name = db.StringProperty()
@@ -35,27 +38,48 @@ def getQuoteByID(id):
     return Quote.get_by_id(id)
 
 def getRandomQuote(author=None):
-    rand = random.random()
-    if author:
-        query = Quote.gql('WHERE author = :1 AND rand > :2 ORDER BY rand', author, rand).fetch(1)
-    else:
-        query = Quote.gql('WHERE rand > :1 ORDER BY rand', rand).fetch(1)
-    val = query[0]
+    # rand = random.random()
+    # if author:
+    #     query = Quote.gql('WHERE author = :1 AND rand > :2 ORDER BY rand', author, rand).fetch(1)
+    # else:
+    #     query = Quote.gql('WHERE rand > :1 ORDER BY rand', rand).fetch(1)
+    # val = query[0]
+    quotes = getQuotes(author)
+    val = quotes[random.randint(0, len(quotes) - 1)]
     return val
 
 def getCategories():
-    result = []
-    query = Category.all()
-    for x in query:
-        result.append((x.slug, x.name))
-    return result
+    mc_key = 'categorylist'
+    val = memcache.get(mc_key)
+    if val is None:
+        val = list(Category.all())
+        memcache.set(mc_key, val, quotelist_cache_duration)
+    return val
 
 def getAuthors():
-    result = []
-    query = Author.all()
-    for x in query:
-        result.append((x.slug, x.name, x.description))
-    return result
+    mc_key = 'authorlist'
+    val = memcache.get(mc_key)
+    if val is None:
+        val = list(Author.all())
+        memcache.set(mc_key, val, quotelist_cache_duration)
+    return val
+
+def getQuotes(author=None):
+    if author:
+        mc_key = 'quotelist|' + author.name
+    else:
+        mc_key = 'quotelist'
+    val = memcache.get(mc_key)
+    if val is None:
+        val = []
+        if author:
+            query = Quote.gql('WHERE author = :1', author)
+        else:
+            query = Quote.all()
+        for x in query:
+            val.append(x)
+        memcache.set(mc_key, val, quotelist_cache_duration)
+    return val
 
 def addCategory(name, slug):
     query = Category.gql('WHERE slug = :1', slug).fetch(1)
