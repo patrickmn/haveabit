@@ -74,7 +74,7 @@ def getNotFoundPage():
     return getPage('404', 'view/404.html')
 
 def getPage(name, file, dict=dict()):
-    mc_key = config.mc_base + 'page|' + name
+    mc_key = 'page|' + name
     val = memcache.get(mc_key)
     if val is None:
         val = template.render(file, dict)

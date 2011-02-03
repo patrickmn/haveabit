@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import datetime
 from xml.sax.saxutils import quoteattr, escape
-from google.appengine.api import users
+from google.appengine.api import memcache
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
@@ -53,8 +53,17 @@ class Add(Request):
                 res = 1
             self.redirect('/admin?res=%d' % res)
 
+class Flush(Request):
+
+    def post(self):
+        res = 0
+        if memcache.flush_all():
+            res = 1
+        self.redirect('/admin?res=%d' % res)
+
 application = webapp.WSGIApplication(
                                      [('/admin', MainPage),
+                                      ('/admin/flush', Flush),
                                       (r'/admin/add/(.*)', Add),
                                       ],
                                      debug=True)

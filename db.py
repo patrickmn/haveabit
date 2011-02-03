@@ -49,7 +49,7 @@ def getRandomQuote(author=None):
     return val
 
 def getCategories():
-    mc_key = config.mc_base + 'categorylist'
+    mc_key = 'categorylist'
     val = memcache.get(mc_key)
     if val is None:
         categories = Category.all()
@@ -59,7 +59,7 @@ def getCategories():
     return val
 
 def getAuthors():
-    mc_key = config.mc_base + 'authorlist'
+    mc_key = 'authorlist'
     val = memcache.get(mc_key)
     if val is None:
         authors = Author.all()
@@ -70,9 +70,9 @@ def getAuthors():
 
 def getQuotes(author=None):
     if author:
-        mc_key = config.mc_base + 'quotelist|' + author.name
+        mc_key = 'quotelist|' + author.name
     else:
-        mc_key = config.mc_base + 'quotelist'
+        mc_key = 'quotelist'
     val = memcache.get(mc_key)
     if val is None:
         val = []
