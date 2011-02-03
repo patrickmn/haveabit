@@ -2,6 +2,9 @@
 
 {% block title %}{{ quote.name }} - {{ author.name }}{% endblock %}
 
+{% block meta %}<meta name="description" content="{{ meta_description }}" />
+<meta name="keywords" content="{{ meta_keywords }}" />{% endblock %}
+
 {% block headline %}Have a Bit of {{ author.name }}{% endblock %}
 
 {% block content %}
