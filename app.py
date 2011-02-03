@@ -5,9 +5,8 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 
+import config
 import db
-
-page_cache_duration = 2592000 # How many seconds to cache (static) rendered pages
 
 class Request(webapp.RequestHandler):
 
@@ -75,11 +74,11 @@ def getNotFoundPage():
     return getPage('404', 'view/404.html')
 
 def getPage(name, file, dict=dict()):
-    memcachekey = 'page|' + name
-    val = memcache.get(memcachekey)
+    mc_key = config.mc_base + 'page|' + name
+    val = memcache.get(mc_key)
     if val is None:
         val = template.render(file, dict)
-        memcache.set(memcachekey, val, page_cache_duration)
+        memcache.set(mc_key, val, config.page_cache_duration)
     return val
 
 application = webapp.WSGIApplication(

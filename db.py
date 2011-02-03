@@ -2,7 +2,7 @@ import random
 from google.appengine.ext import db
 from google.appengine.api import memcache
 
-quotelist_cache_duration = 3600 # How many seconds to cache lists of quotes
+import config
 
 class Category(db.Model):
     name = db.StringProperty()
@@ -49,30 +49,30 @@ def getRandomQuote(author=None):
     return val
 
 def getCategories():
-    mc_key = 'categorylist'
+    mc_key = config.mc_base + 'categorylist'
     val = memcache.get(mc_key)
     if val is None:
         categories = Category.all()
         categories.order('name')
         val = list(categories)
-        memcache.set(mc_key, val, quotelist_cache_duration)
+        memcache.set(mc_key, val, config.quotelist_cache_duration)
     return val
 
 def getAuthors():
-    mc_key = 'authorlist'
+    mc_key = config.mc_base + 'authorlist'
     val = memcache.get(mc_key)
     if val is None:
         authors = Author.all()
         authors.order('name')
         val = list(authors)
-        memcache.set(mc_key, val, quotelist_cache_duration)
+        memcache.set(mc_key, val, config.quotelist_cache_duration)
     return val
 
 def getQuotes(author=None):
     if author:
-        mc_key = 'quotelist|' + author.name
+        mc_key = config.mc_base + 'quotelist|' + author.name
     else:
-        mc_key = 'quotelist'
+        mc_key = config.mc_base + 'quotelist'
     val = memcache.get(mc_key)
     if val is None:
         val = []
@@ -82,7 +82,7 @@ def getQuotes(author=None):
             query = Quote.all()
         for x in query:
             val.append(x)
-        memcache.set(mc_key, val, quotelist_cache_duration)
+        memcache.set(mc_key, val, config.quotelist_cache_duration)
     return val
 
 def addCategory(name, slug):
