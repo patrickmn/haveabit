@@ -5,7 +5,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 
-import config
+import settings
 import db
 
 class Request(webapp.RequestHandler):
@@ -80,7 +80,7 @@ def getPage(name, file, dict=dict()):
     val = memcache.get(mc_key)
     if val is None:
         val = template.render(file, dict)
-        memcache.set(mc_key, val, config.page_cache_duration)
+        memcache.set(mc_key, val, settings.page_cache_duration)
     return val
 
 application = webapp.WSGIApplication(

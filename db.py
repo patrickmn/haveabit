@@ -2,7 +2,7 @@ import random
 from google.appengine.ext import db
 from google.appengine.api import memcache
 
-import config
+import settings
 
 class Category(db.Model):
     name = db.StringProperty()
@@ -55,7 +55,7 @@ def getCategories():
         categories = Category.all()
         categories.order('name')
         val = list(categories)
-        memcache.set(mc_key, val, config.quotelist_cache_duration)
+        memcache.set(mc_key, val, settings.quotelist_cache_duration)
     return val
 
 def getAuthors():
@@ -65,7 +65,7 @@ def getAuthors():
         authors = Author.all()
         authors.order('name')
         val = list(authors)
-        memcache.set(mc_key, val, config.quotelist_cache_duration)
+        memcache.set(mc_key, val, settings.quotelist_cache_duration)
     return val
 
 def getQuotes(author=None):
@@ -82,7 +82,7 @@ def getQuotes(author=None):
             query = Quote.all()
         for x in query:
             val.append(x)
-        memcache.set(mc_key, val, config.quotelist_cache_duration)
+        memcache.set(mc_key, val, settings.quotelist_cache_duration)
     return val
 
 def addCategory(name, slug):

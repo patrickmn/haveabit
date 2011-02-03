@@ -18,14 +18,6 @@ handlers:
 - url: /apihelp
   script: app.py
 
-- url: /admin
-  script: admin.py
-  login: admin
-
-- url: /admin/.*
-  script: admin.py
-  login: admin
-
 - url: /style
   static_dir: style
 
@@ -36,6 +28,19 @@ handlers:
 - url: /robots.txt
   static_files: media/robots.txt
   upload: media/robots.txt
+
+- url: /admin(/.*)?
+  script: admin.py
+  login: admin
+
+- url: /console/static
+  static_dir: app-engine-console/console/console/app/view/static
+  expiration: 30m
+  login: admin
+
+- url: /console.*
+  script: app-engine-console/console/console/app/console.py
+  login: admin
 
 - url: /.*
   script: app.py
