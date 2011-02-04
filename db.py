@@ -36,7 +36,7 @@ def flush_after(fn):
     return go
 
 def flush():
-    memcache.flush_all()
+    return memcache.flush_all()
 
 def getCategory(slug):
     query = Category.gql('WHERE slug = :1', slug).fetch(1)
