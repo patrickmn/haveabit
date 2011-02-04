@@ -48,8 +48,8 @@ class Add(Request):
             name = self.request.get('name')
             text = self.request.get('text')
             img_url = self.request.get('img_url')
-            vid_url = self.request.get('vid_url')
-            if db.addQuote(author, categories, name, text, img_url, vid_url):
+            html = self.request.get('html')
+            if db.addQuote(author, categories, name, text, img_url, html):
                 res = 1
             self.redirect('/admin?res=%d' % res)
 

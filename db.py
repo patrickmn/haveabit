@@ -20,7 +20,7 @@ class Quote(db.Model):
     name = db.StringProperty()
     text = db.TextProperty()
     img_url = db.StringProperty()
-    vid_url = db.StringProperty()
+    html = db.StringProperty()
     date = db.DateTimeProperty(auto_now_add=True)
     rand = db.FloatProperty()
 
@@ -107,7 +107,7 @@ def addAuthor(name, slug, description, img_url):
     author.img_url = img_url
     author.put()
 
-def addQuote(author, cats, name, text, img_url, vid_url):
+def addQuote(author, cats, name, text, img_url, html):
     categories = []
     quote = Quote()
     quote.author = author
@@ -115,7 +115,7 @@ def addQuote(author, cats, name, text, img_url, vid_url):
     quote.name = name
     quote.text = text
     quote.img_url = img_url
-    quote.vid_url = vid_url
+    quote.html = html
     has = Quote.gql('WHERE author = :1', author).fetch(1)
     quote.rand = 1.0 if not has else random.random()
     quote.put()
