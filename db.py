@@ -1,3 +1,4 @@
+import datetime
 import random
 from google.appengine.ext import db
 from google.appengine.api import memcache
@@ -13,6 +14,8 @@ class Author(db.Model):
     slug = db.StringProperty()
     description = db.StringProperty()
     img_url = db.StringProperty()
+    date_birth = db.DateProperty()
+    date_death = db.DateProperty()
 
 class Quote(db.Model):
     author = db.ReferenceProperty(Author)
@@ -23,6 +26,16 @@ class Quote(db.Model):
     vid_url = db.StringProperty()
     date = db.DateTimeProperty(auto_now_add=True)
     rand = db.FloatProperty()
+
+def flush_after(fn):
+    def go(*args, **kw):
+        ret = fn(*args, **kw)
+        flush()
+        return ret
+    return go
+
+def flush():
+    memcache.flush_all()
 
 def getCategory(slug):
     query = Category.gql('WHERE slug = :1', slug).fetch(1)
@@ -85,6 +98,7 @@ def getQuotes(author=None):
         memcache.set(mc_key, val, settings.quotelist_cache_duration)
     return val
 
+@flush_after
 def addCategory(name, slug):
     query = Category.gql('WHERE slug = :1', slug).fetch(1)
     if query:
@@ -95,18 +109,26 @@ def addCategory(name, slug):
     category.slug = slug
     category.put()
 
-def addAuthor(name, slug, description, img_url):
+@flush_after
+def addAuthor(name, slug, description, img_url, date_birth, date_death):
     query = Author.gql('WHERE slug = :1', slug).fetch(1)
     if query:
         author = query[0]
+        # Slug is not changed for existing authors as it's part of the URL
     else:
         author = Author()
-    author.name = name
-    author.slug = slug
+        author.slug = slug
+    if name:
+        author.name = name
     author.description = description
     author.img_url = img_url
+    if date_birth:
+        author.date_birth = datetime.date(*[int(x) for x in date_birth.split('-')])
+    if date_death:
+        author.date_death = datetime.date(*[int(x) for x in date_death.split('-')])
     author.put()
 
+@flush_after
 def addQuote(author, cats, name, text, img_url, vid_url):
     categories = []
     quote = Quote()

@@ -39,7 +39,9 @@ class Add(Request):
             slug = self.request.get('slug')
             description = self.request.get('description')
             img_url = self.request.get('img_url')
-            if db.addAuthor(name, slug, description, img_url):
+            date_birth = self.request.get('date_birth')
+            date_death = self.request.get('date_death')
+            if db.addAuthor(name, slug, description, img_url, date_birth, date_death):
                 res = 1
             self.redirect('/admin?res=%d' % res)
         elif type == 'quote':

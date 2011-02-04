@@ -49,8 +49,16 @@ class QuotePage(Request):
         if not self.request.path == proper_url:
             self.redirect(proper_url)
         else:
+            if author.date_birth:
+                if author.date_death:
+                    lifestr = ' (' + author.date_birth.strftime(settings.date_format) + ' - ' + author.date_death.strftime(settings.date_format) + ')'
+                else:
+                    lifestr = ' (born ' + author.date_birth.strftime(settings.date_format) + ')'
+            else:
+                lifestr = ''
             template_values = {
                 'author': author,
+                'lifestr': lifestr,
                 'quote': quote,
                 'meta_description': quote.text[:150],
                 'meta_keywords': ', '.join((quote.name, author.name, author.slug)),
