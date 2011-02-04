@@ -7,14 +7,14 @@
 <p>Be inspired by some of the greatest people who ever lived.</p>
 
 <p>Have a bit of:</p>
+<div id="authorlist">
 <ul>
 {% for author in authors %}
-<li><a href="/{{ author.slug }}" title="{{ author.name }}"><strong>{{ author.name }}</strong></a></li>
+<li><a href="/{{ author.slug }}" title="{{ author.description }}" rel="nofollow"><strong>{{ author.name }}</strong></a></li>
 {% endfor %}
 </ul>
+<br clear="all" />
+<p>(Hover over a name to see a description.)
 </div>
-{% endblock %}
-
-{% block footer %}
-        <a href="/random" title="Random quote">Random Quote</a> | <a href="/about" title="About">About</a> | <a href="/apihelp" title="API">API</a> | <a href="http://dev.throwingfire.com/projects/haveabitof" title="HaveABitOf - ThrowingFire Labs">Source</a>
+</div>
 {% endblock %}
