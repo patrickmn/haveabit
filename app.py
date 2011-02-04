@@ -55,7 +55,7 @@ class QuotePage(Request):
                 dob = gregtime.strftime(author.date_birth, settings.strftime_format) if settings.use_strftime else str(author.date_birth.year)
                 if author.date_death:
                     dod = gregtime.strftime(author.date_death, settings.strftime_format) if settings.use_strftime else str(author.date_death.year)
-                    lifestr = ' (' + dob + ' - ' + dod + ')'
+                    lifestr = ' (' + dob + '&ndash;' + dod + ')'
                 else:
                     in_prop = '' if settings.use_strftime else 'in '
                     lifestr = ' (born ' + in_prop + dob + ')'
