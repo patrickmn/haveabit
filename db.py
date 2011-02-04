@@ -21,6 +21,7 @@ class Quote(db.Model):
     author = db.ReferenceProperty(Author)
     categories = db.ListProperty(db.Key)
     name = db.StringProperty()
+    description = db.StringProperty()
     text = db.TextProperty()
     img_url = db.StringProperty()
     vid_url = db.StringProperty()
@@ -129,12 +130,13 @@ def addAuthor(name, slug, description, img_url, date_birth, date_death):
     author.put()
 
 @flush_after
-def addQuote(author, cats, name, text, img_url, vid_url):
+def addQuote(author, cats, name, description, text, img_url, vid_url):
     categories = []
     quote = Quote()
     quote.author = author
     quote.categories = [getCategory(x).key() for x in cats]
     quote.name = name
+    quote.description = description
     quote.text = text
     quote.img_url = img_url
     quote.vid_url = vid_url
