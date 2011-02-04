@@ -7,6 +7,8 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 import settings
 import db
+if settings.use_strftime:
+    from util.gregtime import strftime
 
 class Request(webapp.RequestHandler):
 
@@ -50,10 +52,12 @@ class QuotePage(Request):
             self.redirect(proper_url)
         else:
             if author.date_birth:
+                dob = strftime(author.date_birth, settings.strftime_format) if settings.use_strftime else str(author.date_birth.year)
                 if author.date_death:
-                    lifestr = ' (' + author.date_birth.strftime(settings.date_format) + ' - ' + author.date_death.strftime(settings.date_format) + ')'
+                    dod = strftime(author.date_death, settings.strftime_format) if settings.use_strftime else str(author.date_death.year)
+                    lifestr = ' (' + dob + ' - ' + dod + ')'
                 else:
-                    lifestr = ' (born ' + author.date_birth.strftime(settings.date_format) + ')'
+                    lifestr = ' (born ' + '' if settings.use_strftime else 'in ' + dob + ')'
             else:
                 lifestr = ''
             template_values = {
