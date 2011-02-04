@@ -7,17 +7,18 @@
 
 {% block headline %}Have a Bit of {{ author.name }}{% endblock %}
 
-{% block content %}
+{% block teaser %}
 {% if quote.img_url %}
 <img src="{{ quote.img_url }}" title="{{ quote.name }}" alt="{{ quote.name }}" />
-{% else %}{% if quote.vid_url %}
-Video
+{% else %}{% if quote.html %}
+{{ quote.html }}
 {% else %}{% if author.img_url %}
 <img src="{{ author.img_url }}" title="{{ author.name }}" alt="{{ author.name }}" />
 {% endif %}{% endif %}{% endif %}
-
 <br /><br />
+{% endblock %}
 
+{% block content %}
 <h1>{{ quote.name }}</h1>
 {% if quote.description %}<p><em>{{ quote.description }}</em></p>{% endif %}
 <div id="left">
