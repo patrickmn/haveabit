@@ -46,18 +46,22 @@ div#floatl {
 }
 
 div#authorlist ul {
+/*
   float: left;
   width: 40em;
   margin: 0;
   padding: 0;
+*/
   list-style: none;
 }
 
 div#authorlist li {
+/*
   float: left;
   width: 20em;
   margin: 0;
   padding: 0;
+*/
 }
 
 div#header

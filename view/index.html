@@ -8,11 +8,20 @@
 
 <p>Have a bit of:</p>
 <div id="authorlist">
+<div id="floatl">
 <ul>
-{% for author in authors %}
+{% for author in author_list1 %}
 <li><a href="/{{ author.slug }}" title="{{ author.description }}" rel="nofollow"><strong>{{ author.name }}</strong></a></li>
 {% endfor %}
 </ul>
+</div>
+<div id="floatr">
+<ul>
+{% for author in author_list2 %}
+<li><a href="/{{ author.slug }}" title="{{ author.description }}" rel="nofollow"><strong>{{ author.name }}</strong></a></li>
+{% endfor %}
+</ul>
+</div>
 <br clear="all" />
 <p>(Hover over a name to see a description.)
 </div>

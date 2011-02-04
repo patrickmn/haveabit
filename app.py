@@ -18,8 +18,12 @@ class Request(webapp.RequestHandler):
 class MainPage(Request):
 
     def get(self):
+        authors = db.getAuthors()
+        split = len(authors) / 2
+        list1, list2 = authors[:split], authors[split:]
         template_values = {
-            'authors': db.getAuthors(),
+            'author_list1': list1,
+            'author_list2': list2,
         }
         self.send(getPage('index', 'view/index.html', template_values))
 
