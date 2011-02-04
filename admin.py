@@ -52,7 +52,7 @@ class Add(Request):
             text = self.request.get('text')
             img_url = self.request.get('img_url')
             html = self.request.get('html')
-            if db.addQuote(author, categories, name, description text, img_url, html):
+            if db.addQuote(author, categories, name, description, text, img_url, html):
                 res = 1
             self.redirect('/admin?res=%d' % res)
 
