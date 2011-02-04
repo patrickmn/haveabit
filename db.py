@@ -1,3 +1,4 @@
+import os
 import datetime
 import random
 from google.appengine.ext import db
@@ -97,6 +98,20 @@ def getQuotes(author=None):
         for x in query:
             val.append(x)
         memcache.set(mc_key, val, settings.quotelist_cache_duration)
+    return val
+
+def getSitemap():
+    mc_key = 'sitemap'
+    val = memcache.get(mc_key)
+    if val is None:
+        host = os.environ['HTTP_HOST'] if os.environ.get('HTTP_HOST') else os.environ['SERVER_NAME']
+        sitemap = []
+        quotes = getQuotes()
+        for quote in quotes:
+            entry = '<url>%s/%s/%s</url>' % (host, quote.author.slug, quote.key().id())
+            sitemap.append(entry)
+        val = u'\r\n'.join(sitemap)
+        memcache.set(mc_key, val, settings.page_cache_duration)
     return val
 
 @flush_after

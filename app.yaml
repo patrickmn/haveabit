@@ -18,6 +18,9 @@ handlers:
 - url: /apihelp
   script: app.py
 
+- url: /sitemap.xml
+  script: app.py
+
 - url: /style
   static_dir: style
 

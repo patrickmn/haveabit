@@ -85,6 +85,11 @@ class ApiHelp(Request):
     def get(self):
         self.send(getPage('apihelp', 'view/apihelp.html'))
 
+class Sitemap(Request):
+
+    def get(self):
+        self.send(db.getSitemap())
+
 def getNotFoundPage():
     return getPage('404', 'view/404.html')
 
@@ -102,6 +107,7 @@ application = webapp.WSGIApplication(
                                       ('/api', Api),
                                       ('/apihelp', ApiHelp),
                                       ('/random', QuotePage),
+                                      ('/sitemap.xml', Sitemap),
                                       (r'/(.*)/(.*)', QuotePage),
                                       (r'/(.*)', QuotePage),
                                       ],
