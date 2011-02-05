@@ -27,7 +27,7 @@ div#quote div {
 
 div#comments
 {
-    margin-top: 72px;
+    margin-top: 48px;
 }
 
 div#left
@@ -85,7 +85,7 @@ div#header a, a:visited, a:hover
 
 div#footer
 {
-    margin-top: 36px;
+    /* margin-top: 36px; */
     font-size: 11px;
 }
 
