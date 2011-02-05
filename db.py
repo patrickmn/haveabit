@@ -91,7 +91,7 @@ def getAuthors():
 
 def getQuotes(author=None):
     if author:
-        mc_key = 'quotelist|' + author.name
+        mc_key = 'quotelist|%s' % author.name
     else:
         mc_key = 'quotelist'
     val = memcache.get(mc_key)
@@ -103,6 +103,16 @@ def getQuotes(author=None):
             query = Quote.all()
         for x in query:
             val.append(x)
+        memcache.set(mc_key, val, settings.quotelist_cache_duration)
+    return val
+
+def getRecentQuotes(number=20):
+    mc_key = 'recentquotelist|%s' % number
+    val = memcache.get(mc_key)
+    if val is None:
+        query = Quote.all()
+        query.order('-date')
+        val = query.fetch(number)
         memcache.set(mc_key, val, settings.quotelist_cache_duration)
     return val
 

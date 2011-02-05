@@ -1,4 +1,5 @@
 import datetime
+import operator
 from google.appengine.api import memcache
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
@@ -22,7 +23,7 @@ def getFeed():
     val = memcache.get(mc_key)
     if val is None:
         items = []
-        quotes = db.getQuotes()[:20]
+        quotes = db.getRecentQuotes(20)
         for x in quotes:
             items.append(PyRSS2Gen.RSSItem(
                 title = x.author.name + ' - ' + x.name,

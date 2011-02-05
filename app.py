@@ -58,6 +58,7 @@ class QuotePage(Request):
                 'author': author,
                 'teaser': quote.renderTeaser(q),
                 'quote': quote.renderQuote(q),
+                'quote_name': q.name,
                 'next_quote': next_quote,
                 'next_quote_id': next_quote.key().id() if next_quote else None,
                 'meta_description': q.text[:160],
