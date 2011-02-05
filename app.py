@@ -8,9 +8,6 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 import settings
 import db
-if settings.use_strftime:
-    import gregtime
-import quote
 from request import Request
 
 class MainPage(Request):
@@ -67,8 +64,8 @@ class QuotePage(Request):
             next_quote = db.getNextQuote(q)
             template_values = {
                 'author': author,
-                'teaser': quote.renderTeaser(q),
-                'quote': quote.renderQuote(q),
+                'teaser': q.renderTeaser(),
+                'quote': q.renderQuote(),
                 'quote_name': q.name,
                 'quote_key': q.key(),
                 'quote_url': settings.address + proper_url,

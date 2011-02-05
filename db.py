@@ -4,6 +4,7 @@ from google.appengine.ext import db
 from google.appengine.api import memcache
 
 import settings
+import bit
 
 class Category(db.Model):
     name = db.StringProperty()
@@ -17,7 +18,7 @@ class Author(db.Model):
     date_birth = db.DateProperty()
     date_death = db.DateProperty()
 
-class Quote(db.Model):
+class Quote(db.Model, bit.Quote):
     author = db.ReferenceProperty(Author)
     categories = db.ListProperty(db.Key)
     name = db.StringProperty()

@@ -6,7 +6,6 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 import settings
 import db
-import quote
 import PyRSS2Gen
 from request import Request
 
@@ -24,14 +23,14 @@ def getFeed():
     if val is None:
         items = []
         quotes = db.getRecentQuotes(20)
-        for x in quotes:
+        for quote in quotes:
+            link = quote.getLink()
             items.append(PyRSS2Gen.RSSItem(
-                title = x.author.name + ' - ' + x.name,
-                link = '%s/%s/%s' % (settings.address, x.author.slug, x.key().id()),
-                description = quote.renderTeaser(x) + quote.renderQuote(x, with_title=False),
-                # description = linebreaks('%s%s' % (extra, '(' + x.description + '.) ' + '\r\n' + text if x.description else text)),
-                guid = PyRSS2Gen.Guid('%s/%s/%s' % (settings.address, x.author.slug, x.key().id())),
-                pubDate = x.date))
+                title = quote.author.name + ' - ' + quote.name,
+                link = quote.getLink(),
+                description = quote.renderTeaser() + quote.renderQuote(with_title=False),
+                guid = PyRSS2Gen.Guid(link),
+                pubDate = quote.date))
         rss = PyRSS2Gen.RSS2(
             title = 'Have a Bit',
             link = settings.address,
