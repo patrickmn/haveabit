@@ -86,7 +86,7 @@ div#header a, a:visited, a:hover
 div#footer
 {
     margin-top: 36px;
-    font-size: 11px;
+    /* font-size: 11px; */
 }
 
 a, a:visited
