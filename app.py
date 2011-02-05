@@ -39,9 +39,9 @@ class QuotePage(Request):
             if cached:
                 self.send(cached)
                 return
-            q = db.getQuoteByID(id)
-            if q:
-                author = q.author
+            quote = db.getQuoteByID(id)
+            if quote:
+                author = quote.author
             else:
                 self.error(404)
                 self.send(getNotFoundPage())
@@ -49,33 +49,33 @@ class QuotePage(Request):
         elif author_slug:
             author = db.getAuthor(author_slug)
             if author:
-                q = db.getRandomQuote(author)
+                quote = db.getRandomQuote(author)
             else:
                 self.error(404)
                 self.send(getNotFoundPage())
                 return
         else:
-            q = db.getRandomQuote()
-            author = q.author
-        proper_url = '/%s/%d' % (author.slug, q.key().id())
+            quote = db.getRandomQuote()
+            author = quote.author
+        proper_url = '/%s/%d' % (author.slug, quote.key().id())
         if not self.request.path == proper_url:
             self.redirect(proper_url)
         else:
-            next_quote = db.getNextQuote(q)
+            next_quote = db.getNextQuote(quote)
             template_values = {
                 'author': author,
-                'teaser': q.renderTeaser(),
-                'quote': q.renderQuote(),
-                'quote_name': q.name,
-                'quote_key': q.key(),
+                'teaser': quote.renderTeaser(),
+                'quote': quote.renderQuote(),
+                'quote_name': quote.name,
+                'quote_key': quote.key(),
                 'quote_url': settings.address + proper_url,
                 'next_quote': next_quote,
                 'next_quote_id': next_quote.key().id() if next_quote else None,
-                'meta_description': q.text[:160],
-                'meta_keywords': ', '.join((q.name, author.name, author.slug)),
+                'meta_description': quote.text[:160],
+                'meta_keywords': ', '.join((quote.name, author.name, author.slug)),
                 'show_comments': show_comments,
             }
-            self.send(getPage('quote|%d%s' % (q.key().id(), '|show_comments' if show_comments else ''), 'view/quote.html', template_values))
+            self.send(getPage('quote|%d%s' % (quote.key().id(), '|show_comments' if show_comments else ''), 'view/quote.html', template_values))
 
 class ListPage(Request):
 
