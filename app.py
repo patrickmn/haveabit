@@ -66,13 +66,12 @@ class QuotePage(Request):
             else:
                 lifestr = ''
             next_quote = db.getNextQuote(quote)
-            next_quote_id = next_quote.key().id()
             template_values = {
                 'author': author,
                 'lifestr': lifestr,
                 'quote': quote,
                 'next_quote': next_quote,
-                'next_quote_id': next_quote_id,
+                'next_quote_id': next_quote.key().id() if next_quote else None,
                 'meta_description': quote.text[:150],
                 'meta_keywords': ', '.join((quote.name, author.name, author.slug)),
             }
