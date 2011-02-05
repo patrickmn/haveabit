@@ -25,6 +25,11 @@ div#quote div {
     background: transparent url(quoright.png) right bottom no-repeat;
 }
 
+div#comments
+{
+    margin-top: 36px;
+}
+
 div#left
 {
     text-align: left;

@@ -30,7 +30,12 @@ class QuotePage(Request):
     def get(self, author_slug=None, id=None):
         author = None
         if id:
-            id = int(id)
+            try:
+                id = int(id)
+            except ValueError:
+                self.error(404)
+                self.send(getNotFoundPage())
+                return
             q = db.getQuoteByID(id)
             if q:
                 author = q.author
@@ -54,17 +59,21 @@ class QuotePage(Request):
             self.redirect(proper_url)
         else:
             next_quote = db.getNextQuote(q)
+            show_comments = bool(self.request.get('show_comments'))
             template_values = {
                 'author': author,
                 'teaser': quote.renderTeaser(q),
                 'quote': quote.renderQuote(q),
                 'quote_name': q.name,
+                'quote_key': q.key(),
+                'quote_url': settings.address + proper_url,
                 'next_quote': next_quote,
                 'next_quote_id': next_quote.key().id() if next_quote else None,
                 'meta_description': q.text[:160],
                 'meta_keywords': ', '.join((q.name, author.name, author.slug)),
+                'show_comments': show_comments,
             }
-            self.send(getPage('quote|%d' % q.key().id(), 'view/quote.html', template_values))
+            self.send(getPage('quote|%d%s' % (q.key().id(), '|show_comments' if show_comments else ''), 'view/quote.html', template_values))
 
 class ListPage(Request):
 

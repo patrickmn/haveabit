@@ -13,8 +13,25 @@
 
 {% block content %}
 {{ quote }}
+{% if show_comments %}
+<div id="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'haveabit';
+    var disqus_identifier = '{{ quote_key }}';
+    var disqus_url = '{{ quote_url }}';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the comments.</a></noscript>
+</div>
+{% endif %}
 {% endblock %}
 
 {% block footer %}
-<p>{% if next_quote %}<a href="{{ next_quote_id }}" title="{{ next_quote.name }}">More {{ author.name }}</a> | {% endif %}<a href="/random" title="Have a Bit of Random" rel="nofollow">Random</a> | <a href="/" title="Have a Bit">Back</a></p>
+{% if not show_comments %}<p><a href="?show_comments=1" title="Show comments">Comments</a> | {% endif %}{% if next_quote %}<a href="{{ next_quote_id }}" title="{{ next_quote.name }}">More {{ author.name }}</a> | {% endif %}<a href="/random" title="Have a Bit of Random" rel="nofollow">Random</a> | <a href="/" title="Have a Bit">Back</a></p>
 {% endblock %}
