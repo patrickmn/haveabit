@@ -29,12 +29,18 @@ class QuotePage(Request):
 
     def get(self, author_slug=None, id=None):
         author = None
+        show_comments = False
         if id:
             try:
                 id = int(id)
             except ValueError:
                 self.error(404)
                 self.send(getNotFoundPage())
+                return
+            show_comments = bool(self.request.get('show_comments'))
+            cached = getCachedPage('quote|%d%s' % (id, '|show_comments' if show_comments else ''))
+            if cached:
+                self.send(cached)
                 return
             q = db.getQuoteByID(id)
             if q:
@@ -59,7 +65,6 @@ class QuotePage(Request):
             self.redirect(proper_url)
         else:
             next_quote = db.getNextQuote(q)
-            show_comments = bool(self.request.get('show_comments'))
             template_values = {
                 'author': author,
                 'teaser': quote.renderTeaser(q),
@@ -105,6 +110,9 @@ class ApiHelp(Request):
 
 def getNotFoundPage():
     return getPage('404', 'view/404.html')
+
+def getCachedPage(name):
+    return memcache.get('page|' + name)
 
 def getPage(name, file, dict=dict()):
     mc_key = 'page|' + name
