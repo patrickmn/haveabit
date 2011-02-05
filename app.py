@@ -73,7 +73,7 @@ class ListPage(Request):
         dates = [x.date.strftime('%Y-%m-%d') for x in quotes]
         ids = [x.key().id() for x in quotes]
         items = zip(quotes, dates, ids)
-        items = sorted(items, key=operator.itemgetter(2))
+        items = sorted(items, key=operator.itemgetter(1), reverse=True)
         template_values = {
             'items': items,
         }
