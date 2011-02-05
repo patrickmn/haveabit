@@ -3,7 +3,8 @@
 {% block title %}{{ author.name }} - {{ quote_name }}{% endblock %}
 
 {% block meta %}<meta name="description" content="{{ meta_description }}" />
-<meta name="keywords" content="{{ meta_keywords }}" />{% endblock %}
+<meta name="keywords" content="{{ meta_keywords }}" />
+<link rel="canonical" href="{{ quote_url }}" />{% endblock %}
 
 {% block headline %}Have a Bit of {{ author.name }}{% endblock %}
 
