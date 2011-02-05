@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ quote.name }} - {{ author.name }}{% endblock %}
+{% block title %}{{ author.name }} - {{ quote.name }}{% endblock %}
 
 {% block meta %}<meta name="description" content="{{ meta_description }}" />
 <meta name="keywords" content="{{ meta_keywords }}" />{% endblock %}
@@ -8,32 +8,12 @@
 {% block headline %}Have a Bit of {{ author.name }}{% endblock %}
 
 {% block teaser %}
-{% if quote.img_url %}
-<img src="{{ quote.img_url }}" title="{{ quote.name }}" alt="{{ quote.name }}" />
-{% else %}{% if quote.html %}
-{{ quote.html }}
-{% else %}{% if author.img_url %}
-<img src="{{ author.img_url }}" title="{{ author.name }}" alt="{{ author.name }}" />
-{% endif %}{% endif %}{% endif %}
-<br /><br />
+{{ teaser }}
 {% endblock %}
 
 {% block content %}
-<h1>{{ quote.name }}</h1>
-{% if quote.description %}<p><em>{{ quote.description }}</em></p>{% endif %}
-<div id="left">
-<div id="quote">
-<div>
-{{ quote.text|linebreaks }}
-<br />
-</div>
-</div>
-</div>
-<div id="right">
-<p>&mdash; <strong>{{ author.name }}</strong>{{ lifestr }}<br />
-{{ author.description }}</p>
+{{ quote }}
 {% endblock %}
-</div>
 
 {% block footer %}
 <p>{% if next_quote %}<a href="{{ next_quote_id }}" title="{{ next_quote.name }}">More {{ author.name }}</a> | {% endif %}<a href="/random" title="Have a Bit of Random" rel="nofollow">Random</a> | <a href="/" title="Have a Bit">Back</a></p>

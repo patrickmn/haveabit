@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import datetime
 from xml.sax.saxutils import quoteattr, escape
 from google.appengine.api import memcache
 from google.appengine.ext import webapp
@@ -7,11 +6,7 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 
 import db
-
-class Request(webapp.RequestHandler):
-
-    def send(self, data):
-        return self.response.out.write(data)
+from request import Request
 
 class MainPage(Request):
 

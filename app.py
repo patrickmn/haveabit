@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import operator
 from xml.sax.saxutils import quoteattr, escape
 from google.appengine.api import memcache
 from google.appengine.ext import webapp
@@ -9,11 +10,8 @@ import settings
 import db
 if settings.use_strftime:
     import gregtime
-
-class Request(webapp.RequestHandler):
-
-    def send(self, data):
-        return self.response.out.write(data)
+import quote
+from request import Request
 
 class MainPage(Request):
 
@@ -33,9 +31,9 @@ class QuotePage(Request):
         author = None
         if id:
             id = int(id)
-            quote = db.getQuoteByID(id)
-            if quote:
-                author = quote.author
+            q = db.getQuoteByID(id)
+            if q:
+                author = q.author
             else:
                 self.error(404)
                 self.send(getNotFoundPage())
@@ -43,39 +41,42 @@ class QuotePage(Request):
         elif author_slug:
             author = db.getAuthor(author_slug)
             if author:
-                quote = db.getRandomQuote(author)
+                q = db.getRandomQuote(author)
             else:
                 self.error(404)
                 self.send(getNotFoundPage())
                 return
         else:
-            quote = db.getRandomQuote()
-            author = quote.author
-        proper_url = '/%s/%d' % (author.slug, quote.key().id())
+            q = db.getRandomQuote()
+            author = q.author
+        proper_url = '/%s/%d' % (author.slug, q.key().id())
         if not self.request.path == proper_url:
             self.redirect(proper_url)
         else:
-            if author.date_birth:
-                dob = gregtime.strftime(author.date_birth, settings.strftime_format) if settings.use_strftime else str(author.date_birth.year)
-                if author.date_death:
-                    dod = gregtime.strftime(author.date_death, settings.strftime_format) if settings.use_strftime else str(author.date_death.year)
-                    lifestr = ' (' + dob + '&ndash;' + dod + ')'
-                else:
-                    in_prop = '' if settings.use_strftime else 'in '
-                    lifestr = ' (born ' + in_prop + dob + ')'
-            else:
-                lifestr = ''
-            next_quote = db.getNextQuote(quote)
+            next_quote = db.getNextQuote(q)
             template_values = {
                 'author': author,
-                'lifestr': lifestr,
-                'quote': quote,
+                'teaser': quote.renderTeaser(q),
+                'quote': quote.renderQuote(q),
                 'next_quote': next_quote,
                 'next_quote_id': next_quote.key().id() if next_quote else None,
-                'meta_description': quote.text[:160],
-                'meta_keywords': ', '.join((quote.name, author.name, author.slug)),
+                'meta_description': q.text[:160],
+                'meta_keywords': ', '.join((q.name, author.name, author.slug)),
             }
-            self.send(getPage('quote|%d' % quote.key().id(), 'view/quote.html', template_values))
+            self.send(getPage('quote|%d' % q.key().id(), 'view/quote.html', template_values))
+
+class ListPage(Request):
+
+    def get(self):
+        quotes = db.getQuotes()
+        dates = [x.date.strftime('%Y-%m-%d') for x in quotes]
+        ids = [x.key().id() for x in quotes]
+        items = zip(quotes, dates, ids)
+        items = sorted(items, key=operator.itemgetter(2))
+        template_values = {
+            'items': items,
+        }
+        self.send(getPage('list', 'view/list.html', template_values))
 
 class AboutPage(Request):
 
@@ -92,11 +93,6 @@ class ApiHelp(Request):
     def get(self):
         self.send(getPage('apihelp', 'view/apihelp.html'))
 
-class Sitemap(Request):
-
-    def get(self):
-        self.send(db.getSitemap())
-
 def getNotFoundPage():
     return getPage('404', 'view/404.html')
 
@@ -111,10 +107,10 @@ def getPage(name, file, dict=dict()):
 application = webapp.WSGIApplication(
                                      [('/', MainPage),
                                       ('/about', AboutPage),
+                                      ('/list', ListPage),
                                       ('/api', Api),
                                       ('/apihelp', ApiHelp),
                                       ('/random', QuotePage),
-                                      ('/sitemap.xml', Sitemap),
                                       (r'/(.*)/(.*)', QuotePage),
                                       (r'/(.*)', QuotePage),
                                       ],

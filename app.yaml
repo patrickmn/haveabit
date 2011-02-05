@@ -12,14 +12,20 @@ handlers:
 - url: /about
   script: app.py
 
+- url: /list
+  script: app.py
+
 - url: /api
   script: app.py
 
 - url: /apihelp
   script: app.py
 
+- url: /feed
+  script: feed.py
+
 - url: /sitemap.xml
-  script: app.py
+  script: sitemap.py
 
 - url: /style
   static_dir: style
