@@ -72,7 +72,7 @@ class QuotePage(Request):
                 'quote': quote,
                 'next_quote': next_quote,
                 'next_quote_id': next_quote.key().id() if next_quote else None,
-                'meta_description': quote.text[:150],
+                'meta_description': quote.text[:160],
                 'meta_keywords': ', '.join((quote.name, author.name, author.slug)),
             }
             self.send(getPage('quote|%d' % quote.key().id(), 'view/quote.html', template_values))
