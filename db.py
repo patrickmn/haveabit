@@ -117,7 +117,7 @@ def getSitemap():
         sitemap.append('<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
         quotes = getQuotes()
         for quote in quotes:
-            entry = '<url><loc>%s/%s/%s</loc></url>' % (host, quote.author.slug, quote.key().id())
+            entry = '<url><loc>http://%s/%s/%s</loc></url>' % (host, quote.author.slug, quote.key().id())
             sitemap.append(entry)
         sitemap.append('</urlset>')
         val = u'\r\n'.join(sitemap)
