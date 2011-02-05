@@ -12,7 +12,10 @@ from request import Request
 class Feed(Request):
 
     def get(self):
-        self.send(getFeed())
+        if self.request.headers['User-Agent'].startswith('FeedBurner'):
+            self.send(getFeed())
+        else:
+            self.redirect('http://feeds.haveabit.com/haveabit', permanent=True)
 
 def getFeed():
     mc_key = 'feed'
