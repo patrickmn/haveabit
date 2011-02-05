@@ -56,7 +56,7 @@ def getNextQuote(quote):
         if not val:
             val = Quote.gql('WHERE author = :1 ORDER BY date', quote.author).get()
         memcache.set(mc_key, val, settings.page_cache_duration)
-    if val == quote:
+    if not val.key() == quote.key():
         return val
 
 def getRandomQuote(author=None):
