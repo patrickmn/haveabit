@@ -52,12 +52,9 @@ def getNextQuote(quote):
     mc_key = 'nextquote|%s' % quote.key().id()
     val = memcache.get(mc_key)
     if val is None:
-        res = Quote.gql('WHERE date > :1', quote.date).get()
-        if not res:
-            query = Quote.gql('WHERE author = :1', quote.author)
-            query.order('date')
-            res = query.get()
-        val = res
+        val = Quote.gql('WHERE author = :1 AND date > :2 ORDER BY date', quote.author, quote.date).get()
+        if not val:
+            val = Quote.gql('WHERE author = :1 ORDER BY date', quote.author).get()
         memcache.set(mc_key, val, settings.page_cache_duration)
     return val
 

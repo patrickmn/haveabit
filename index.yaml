@@ -13,4 +13,9 @@ indexes:
 - kind: Quote
   properties:
   - name: author
+  - name: date
+
+- kind: Quote
+  properties:
+  - name: author
   - name: rand
