@@ -65,10 +65,14 @@ class QuotePage(Request):
                     lifestr = ' (born ' + in_prop + dob + ')'
             else:
                 lifestr = ''
+            next_quote = db.getNextQuote(quote)
+            next_quote_id = next_quote.key().id()
             template_values = {
                 'author': author,
                 'lifestr': lifestr,
                 'quote': quote,
+                'next_quote': next_quote,
+                'next_quote_id': next_quote_id,
                 'meta_description': quote.text[:150],
                 'meta_keywords': ', '.join((quote.name, author.name, author.slug)),
             }

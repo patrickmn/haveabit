@@ -40,25 +40,34 @@ def flush():
     return memcache.flush_all()
 
 def getCategory(slug):
-    query = Category.gql('WHERE slug = :1', slug).fetch(1)
-    if query:
-        return query[0]
+    return Category.gql('WHERE slug = :1', slug).get()
 
 def getAuthor(slug):
-    query = Author.gql('WHERE slug = :1', slug).fetch(1)
-    if query:
-        return query[0]
+    return Author.gql('WHERE slug = :1', slug).get()
 
 def getQuoteByID(id):
     return Quote.get_by_id(id)
 
+def getNextQuote(quote):
+    mc_key = 'nextquote|%s' % quote.key().id()
+    val = memcache.get(mc_key)
+    if val is None:
+        res = Quote.gql('WHERE date > :1', quote.date).get()
+        if not res:
+            query = Quote.gql('WHERE author = :1', quote.author)
+            query.order('date')
+            res = query.get()
+        val = res
+        memcache.set(mc_key, val, settings.page_cache_duration)
+    return val
+
 def getRandomQuote(author=None):
     # rand = random.random()
     # if author:
-    #     query = Quote.gql('WHERE author = :1 AND rand > :2 ORDER BY rand', author, rand).fetch(1)
+    #     res = Quote.gql('WHERE author = :1 AND rand > :2 ORDER BY rand', author, rand).get()
     # else:
-    #     query = Quote.gql('WHERE rand > :1 ORDER BY rand', rand).fetch(1)
-    # val = query[0]
+    #     res = Quote.gql('WHERE rand > :1 ORDER BY rand', rand).get()
+    # val = res
     quotes = getQuotes(author)
     val = quotes[random.randint(0, len(quotes) - 1)]
     return val
@@ -119,9 +128,9 @@ def getSitemap():
 
 @flush_after
 def addCategory(name, slug):
-    query = Category.gql('WHERE slug = :1', slug).fetch(1)
-    if query:
-        category = query[0]
+    res = Category.gql('WHERE slug = :1', slug).get()
+    if res:
+        category = res
     else:
         category = Category()
     category.name = name
@@ -130,9 +139,9 @@ def addCategory(name, slug):
 
 @flush_after
 def addAuthor(name, slug, description, img_url, date_birth, date_death):
-    query = Author.gql('WHERE slug = :1', slug).fetch(1)
-    if query:
-        author = query[0]
+    res = Author.gql('WHERE slug = :1', slug).get()
+    if res:
+        author = res
         # Slug is not changed for existing authors as it's part of the URL
     else:
         author = Author()
@@ -158,6 +167,6 @@ def addQuote(author, cats, name, description, text, img_url, html):
     quote.text = text
     quote.img_url = img_url
     quote.html = html
-    has = Quote.gql('WHERE author = :1', author).fetch(1)
+    has = Quote.gql('WHERE author = :1', author).get()
     quote.rand = 1.0 if not has else random.random()
     quote.put()

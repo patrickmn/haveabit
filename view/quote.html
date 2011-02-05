@@ -36,6 +36,5 @@
 </div>
 
 {% block footer %}
-<p><a href="/{{ author.slug }}" title="Have a Bit of {{ author.name }}" rel="nofollow">More {{ author.name }}</a> | <a href="/random" title="Have a Bit of Random" rel="nofollow">Random</a> | <a href="/" title="Have a Bit">Back</a></p>
+<p><a href="{{ next_quote_id }}" title="{{ next_quote.name }}">More {{ author.name }}</a> | <a href="/random" title="Have a Bit of Random" rel="nofollow">Random</a> | <a href="/" title="Have a Bit">Back</a></p>
 {% endblock %}
-
