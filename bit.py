@@ -6,6 +6,9 @@ if settings.use_strftime:
 
 class Quote:
 
+    def __init__(self):
+        self.link = self.getLink()
+
     def renderTeaser(self):
         output = ''
         if self.img_url:
