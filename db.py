@@ -15,6 +15,8 @@ class Author(db.Model):
     slug = db.StringProperty()
     description = db.StringProperty()
     img_url = db.StringProperty()
+    img_width = db.IntegerProperty()
+    img_height = db.IntegerProperty()
     date_birth = db.DateProperty()
     date_death = db.DateProperty()
 
@@ -25,6 +27,8 @@ class Quote(db.Model, bit.Quote):
     description = db.StringProperty()
     text = db.TextProperty()
     img_url = db.StringProperty()
+    img_width = db.IntegerProperty()
+    img_height = db.IntegerProperty()
     html = db.TextProperty()
     date = db.DateTimeProperty(auto_now_add=True)
     rand = db.FloatProperty()
@@ -144,7 +148,7 @@ def addCategory(name, slug):
     category.put()
 
 @flush_after
-def addAuthor(name, slug, description, img_url, date_birth, date_death):
+def addAuthor(name, slug, description, date_birth, date_death, img_url, img_width=None, img_height=None):
     res = Author.gql('WHERE slug = :1', slug).get()
     if res:
         author = res
@@ -156,6 +160,8 @@ def addAuthor(name, slug, description, img_url, date_birth, date_death):
         author.name = name
     author.description = description
     author.img_url = img_url
+    author.img_width = img_width
+    author.img_height = img_height
     if date_birth:
         author.date_birth = datetime.date(*[int(x) for x in date_birth.split('-')])
     if date_death:
@@ -163,15 +169,16 @@ def addAuthor(name, slug, description, img_url, date_birth, date_death):
     author.put()
 
 @flush_after
-def addQuote(author, cats, name, description, text, img_url, html):
-    categories = []
+def addQuote(author, categories, name, description, text, html, img_url, img_width=None, img_height=None):
     quote = Quote()
     quote.author = author
-    quote.categories = [getCategory(x).key() for x in cats]
+    quote.categories = [getCategory(x).key() for x in categories]
     quote.name = name
     quote.description = description
     quote.text = text
     quote.img_url = img_url
+    quote.img_width = img_width
+    quote.img_height = img_height
     quote.html = html
     has = Quote.gql('WHERE author = :1', author).get()
     quote.rand = 1.0 if not has else random.random()

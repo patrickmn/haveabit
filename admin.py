@@ -6,6 +6,7 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 
 import db
+import utils
 from request import Request
 
 class MainPage(Request):
@@ -30,24 +31,38 @@ class Add(Request):
                 res = 1
             self.redirect('/admin?res=%d' % res)
         elif type == 'author':
-            name = self.request.get('name')
-            slug = self.request.get('slug')
-            description = self.request.get('description')
             img_url = self.request.get('img_url')
-            date_birth = self.request.get('date_birth')
-            date_death = self.request.get('date_death')
-            if db.addAuthor(name, slug, description, img_url, date_birth, date_death):
+            if img_url:
+                img_width, img_height = utils.getImageDimensions(utils.downloadFile(img_url))
+            else:
+                img_width = None
+                img_height = None
+            if db.addAuthor(name = self.request.get('name'),
+                            slug = self.request.get('slug'),
+                            description = self.request.get('description'),
+                            date_birth = self.request.get('date_birth'),
+                            date_death = self.request.get('date_death'),
+                            img_url = img_url,
+                            img_width = img_width,
+                            img_height = img_height):
                 res = 1
             self.redirect('/admin?res=%d' % res)
         elif type == 'quote':
-            author = db.getAuthor(self.request.get('author'))
-            categories = self.request.get_all('category')
-            name = self.request.get('name')
-            description = self.request.get('description')
-            text = self.request.get('text')
             img_url = self.request.get('img_url')
-            html = self.request.get('html')
-            if db.addQuote(author, categories, name, description, text, img_url, html):
+            if img_url:
+                img_width, img_height = utils.getImageDimensions(utils.downloadFile(img_url))
+            else:
+                img_width = None
+                img_height = None
+            if db.addQuote(author = db.getAuthor(self.request.get('author')),
+                           categories = self.request.get_all('category'),
+                           name = self.request.get('name'),
+                           description = self.request.get('description'),
+                           text = self.request.get('text'),
+                           html = self.request.get('html'),
+                           img_url = img_url,
+                           img_width = img_width,
+                           img_height = img_height):
                 res = 1
             self.redirect('/admin?res=%d' % res)
 
