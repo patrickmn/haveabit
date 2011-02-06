@@ -93,7 +93,7 @@ class ListPage(Request):
             self.send(cached)
         else:
             quotes = db.getQuotes()
-            quotes.sort(key=operator.attrgetter('date'))
+            quotes.sort(key=operator.attrgetter('date'), reverse=True)
             dates = [x.date.strftime('%Y-%m-%d') for x in quotes]
             ids = [x.key().id() for x in quotes]
             items = zip(quotes, dates, ids)
