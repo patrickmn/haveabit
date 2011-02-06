@@ -66,9 +66,9 @@ def getRandomQuote(author=None):
     # else:
     #     res = Quote.gql('WHERE rand > :1 ORDER BY rand', rand).get()
     # val = res
-    quotes = getQuotes(author)
-    val = quotes[random.randint(0, len(quotes) - 1)]
-    return val
+    ids = getQuoteIDs(author)
+    id = ids[random.randint(0, len(ids) - 1)]
+    return getQuoteByID(id)
 
 def getCategories():
     mc_key = 'categorylist'
@@ -104,6 +104,21 @@ def getQuotes(author=None):
             query = Quote.all()
         for x in query:
             val.append(x)
+        memcache.set(mc_key, val, settings.quotelist_cache_duration)
+    return val
+
+def getQuoteIDs(author=None):
+    if author:
+        mc_key = 'quoteidlist|%s' % author.name
+    else:
+        mc_key = 'quoteidlist'
+    val = memcache.get(mc_key)
+    if val is None:
+        if author:
+            query = Quote.gql('WHERE author = :1', author)
+        else:
+            query = Quote.all()
+        val = [x.key().id() for x in query]
         memcache.set(mc_key, val, settings.quotelist_cache_duration)
     return val
 
