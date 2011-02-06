@@ -32,12 +32,15 @@ class Quote:
         if with_title:
             output.append('<h1>' + self.name + '</h1>')
         output.append('<p><em>' + self.description + '</em></p>' if self.description else '')
-        output.append("""<div id="left">
-<div id="quote">
+        output.append('<div id="left">')
+        if self.text:
+            output.append("""<div id="quote">
 <div>""" + linebreaks(self.text) + """<br />
 </div>
-</div>
-</div>
+</div>""")
+        else:
+            output.append('<br />')
+        output.append("""</div>
 <div id="right">
 <p>&mdash; <strong>""" + self.author.name + '</strong>' + lifestr + '<br />' + self.author.description + '</p>')
         output.append('</div>')
