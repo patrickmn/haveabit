@@ -13,14 +13,18 @@ from request import Request
 class MainPage(Request):
 
     def get(self):
-        authors = db.getAuthors()
-        split = len(authors) / 2
-        list1, list2 = authors[:split], authors[split:]
-        template_values = {
-            'author_list1': list1,
-            'author_list2': list2,
-        }
-        self.send(getPage('index', 'view/index.html', template_values))
+        cached = getCachedPage('index')
+        if cached:
+            self.send(cached)
+        else:
+            authors = db.getAuthors()
+            split = len(authors) / 2
+            list1, list2 = authors[:split], authors[split:]
+            template_values = {
+                'author_list1': list1,
+                'author_list2': list2,
+            }
+            self.send(getPage('index', 'view/index.html', template_values))
 
 class QuotePage(Request):
 
@@ -80,15 +84,19 @@ class QuotePage(Request):
 class ListPage(Request):
 
     def get(self):
-        quotes = db.getQuotes()
-        dates = [x.date.strftime('%Y-%m-%d') for x in quotes]
-        ids = [x.key().id() for x in quotes]
-        items = zip(quotes, dates, ids)
-        items = sorted(items, key=operator.itemgetter(1), reverse=True)
-        template_values = {
-            'items': items,
-        }
-        self.send(getPage('list', 'view/list.html', template_values))
+        cached = getCachedPage('list')
+        if cached:
+            self.send(cached)
+        else:
+            quotes = db.getQuotes()
+            quotes.sort(key=operator.attrgetter('date'))
+            dates = [x.date.strftime('%Y-%m-%d') for x in quotes]
+            ids = [x.key().id() for x in quotes]
+            items = zip(quotes, dates, ids)
+            template_values = {
+                'items': items,
+            }
+            self.send(getPage('list', 'view/list.html', template_values))
 
 class AboutPage(Request):
 
