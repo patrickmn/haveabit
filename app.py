@@ -30,7 +30,6 @@ class MainPage(Request):
 class QuotePage(Request):
 
     def get(self, author_slug=None, id=None):
-        self.response.headers['Cache-Control'] = settings.cache_control
         author = None
         show_comments = False
         if id:
@@ -43,6 +42,7 @@ class QuotePage(Request):
             show_comments = bool(self.request.get('show_comments'))
             cached = getCachedPage('quote|%d%s' % (id, '|show_comments' if show_comments else ''))
             if cached:
+                self.response.headers['Cache-Control'] = settings.long_cache_control
                 self.send(cached)
                 return
             quote = db.getQuoteByID(id)
@@ -67,6 +67,7 @@ class QuotePage(Request):
         if not self.request.path == proper_url:
             self.redirect(proper_url)
         else:
+            self.response.headers['Cache-Control'] = settings.long_cache_control
             next_quote = db.getNextQuote(quote)
             template_values = {
                 'author': author,
