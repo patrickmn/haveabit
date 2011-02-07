@@ -8,4 +8,8 @@ page_cache_duration = 2591999                # How many seconds to cache (static
 quotelist_cache_duration = 2591999           # How many seconds to cache lists of quotes (max: 2591999)
 # quotelist_cache_duration = 3600
 
-address = 'http://' + os.environ['HTTP_HOST'] if os.environ.get('HTTP_HOST') else os.environ['SERVER_NAME']
+if os.environ.get('SERVER_SOFTWARE').startswith('Development'):
+    hostname = os.environ['HTTP_HOST'] if os.environ.get('HTTP_HOST') else os.environ['SERVER_NAME']
+else:
+    hostname = 'www.haveabit.com'
+address = 'http://' + hostname
