@@ -78,7 +78,7 @@ class QuotePage(Request):
                 'quote_url': settings.address + proper_url,
                 'next_quote': next_quote,
                 'next_quote_id': next_quote.key().id() if next_quote else None,
-                'meta_description': quote.text[:160],
+                'meta_description': quote.text[:160].replace('\n', '; '),
                 'meta_keywords': ', '.join((quote.name, author.name, author.slug)),
                 'show_comments': show_comments,
             }
