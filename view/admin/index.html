@@ -6,6 +6,7 @@
 <h2>Add Quote</h2>
 <div id="left">
 <p><form action="/admin/add/quote" method="post" id="addquoteform">
+    <p>Edit (ID): <input type="text" name="quote_id" size="25" /></p>
     <p>Author: <select name="author">
     {% for author in authors %}
         <option value="{{ author.slug }}">{{ author.name }}</option>

@@ -54,7 +54,8 @@ class Add(Request):
             else:
                 img_width = None
                 img_height = None
-            if db.addQuote(author = db.getAuthor(self.request.get('author')),
+            if db.addQuote(quote_id = self.request.get('quote_id'),
+                           author = db.getAuthor(self.request.get('author')),
                            categories = self.request.get_all('category'),
                            name = self.request.get('name'),
                            description = self.request.get('description'),

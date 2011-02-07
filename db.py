@@ -169,8 +169,11 @@ def addAuthor(name, slug, description, date_birth, date_death, img_url, img_widt
     author.put()
 
 @flush_after
-def addQuote(author, categories, name, description, text, html, img_url, img_width=None, img_height=None):
-    quote = Quote()
+def addQuote(author, categories, name, description, text, html, img_url, img_width=None, img_height=None, quote_id=None):
+    if quote_id:
+        quote = getQuoteByID(int(quote_id))
+    else:
+        quote = Quote()
     quote.author = author
     quote.categories = [getCategory(x).key() for x in categories]
     quote.name = name
