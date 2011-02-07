@@ -46,12 +46,12 @@ handlers:
   login: admin
 
 - url: /console/static
-  static_dir: app-engine-console/console/console/app/view/static
+  static_dir: console/app/view/static
   expiration: 30m
   login: admin
 
 - url: /console.*
-  script: app-engine-console/console/console/app/console.py
+  script: console/app/console.py
   login: admin
 
 - url: /.*
