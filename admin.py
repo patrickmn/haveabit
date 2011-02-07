@@ -54,8 +54,7 @@ class Add(Request):
             else:
                 img_width = None
                 img_height = None
-            if db.addQuote(quote_id = self.request.get('quote_id'),
-                           author = db.getAuthor(self.request.get('author')),
+            if db.addQuote(author = db.getAuthor(self.request.get('author')),
                            categories = self.request.get_all('category'),
                            name = self.request.get('name'),
                            description = self.request.get('description'),
@@ -63,7 +62,8 @@ class Add(Request):
                            html = self.request.get('html'),
                            img_url = img_url,
                            img_width = img_width,
-                           img_height = img_height):
+                           img_height = img_height,
+                           quote_id = self.request.get('quote_id')):
                 res = 1
             self.redirect('/admin?res=%d' % res)
 
