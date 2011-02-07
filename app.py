@@ -66,7 +66,7 @@ class QuotePage(Request):
             quote = db.getRandomQuote()
             author = quote.author
         proper_url = quote.getLink()
-        if not self.request.url == proper_url:
+        if not self.request.url.startswith(proper_url):
             self.redirect(proper_url, permanent=True)
         else:
             self.response.headers['Cache-Control'] = settings.long_cache_control
@@ -77,7 +77,7 @@ class QuotePage(Request):
                 'quote': quote.renderQuote(),
                 'quote_name': quote.name,
                 'quote_key': quote.key(),
-                'quote_url': settings.address + proper_url,
+                'quote_url': proper_url,
                 'next_quote': next_quote,
                 'next_quote_id': next_quote.key().id() if next_quote else None,
                 'meta_description': quote.text[:160].replace('\n', '; '),
