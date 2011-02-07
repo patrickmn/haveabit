@@ -11,14 +11,14 @@
 <div id="floatl">
 <ul>
 {% for author in author_list1 %}
-<li><a href="/{{ author.slug }}" title="{{ author.description }}" rel="nofollow"><strong>{{ author.name }}</strong></a></li>
+<li><a href="/{{ author.slug }}" title="{{ author.description }}" rel="nofollow">{{ author.name }}</a></li>
 {% endfor %}
 </ul>
 </div>
 <div id="floatr">
 <ul>
 {% for author in author_list2 %}
-<li><a href="/{{ author.slug }}" title="{{ author.description }}" rel="nofollow"><strong>{{ author.name }}</strong></a></li>
+<li><a href="/{{ author.slug }}" title="{{ author.description }}" rel="nofollow">{{ author.name }}</a></li>
 {% endfor %}
 </ul>
 </div>
