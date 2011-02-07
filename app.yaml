@@ -34,8 +34,8 @@ handlers:
   static_dir: images
 
 - url: /favicon.ico
-  static_files: media/2011-02-04-favicon.ico
-  upload: media/2011-02-04-favicon.ico
+  static_files: media/2011-02-07-favicon.ico
+  upload: media/2011-02-07-favicon.ico
 
 - url: /robots.txt
   static_files: media/2011-02-07-robots.txt
