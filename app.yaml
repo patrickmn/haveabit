@@ -35,8 +35,8 @@ handlers:
   upload: media/2011-02-04-favicon.ico
 
 - url: /robots.txt
-  static_files: media/2011-02-04-robots.txt
-  upload: media/2011-02-04-robots.txt
+  static_files: media/2011-02-07-robots.txt
+  upload: media/2011-02-07-robots.txt
 
 - url: /admin(/.*)?
   script: admin.py
