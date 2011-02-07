@@ -10,7 +10,7 @@
 <div id="left">
 <ul>
 {% for item in items %}
-<li>{{ item.1 }}: <a href="/{{ item.0.author.slug }}/{{ item.2 }}" title="{{ item.0.name }}">{{ item.0.author.name }} &mdash; {{ item.0.name }}</a></li>
+<li>{{ item.1 }}: <a href="/{{ item.0.author.slug }}/{{ item.2 }}" title="{{ item.0.name }}" rel="nofollow">{{ item.0.author.name }} &mdash; {{ item.0.name }}</a></li>
 {% endfor %}
 </ul>
 </div>
