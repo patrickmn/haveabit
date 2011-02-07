@@ -13,6 +13,7 @@ from request import Request
 class MainPage(Request):
 
     def get(self):
+        self.verifyUrl()
         self.response.headers['Cache-Control'] = settings.cache_control
         cached = getCachedPage('index')
         if cached:
@@ -30,6 +31,7 @@ class MainPage(Request):
 class QuotePage(Request):
 
     def get(self, author_slug=None, id=None):
+        self.verifyUrl()
         author = None
         show_comments = False
         if id:
@@ -87,6 +89,7 @@ class QuotePage(Request):
 class ListPage(Request):
 
     def get(self):
+        self.verifyUrl()
         self.response.headers['Cache-Control'] = settings.cache_control
         cached = getCachedPage('list')
         if cached:
@@ -105,18 +108,21 @@ class ListPage(Request):
 class AboutPage(Request):
 
     def get(self):
+        self.verifyUrl()
         self.response.headers['Cache-Control'] = settings.cache_control
         self.send(getPage('about', 'view/about.html'))
 
 class Api(Request):
 
     def get(self):
+        self.verifyUrl()
         self.response.headers['Cache-Control'] = settings.cache_control
         self.send('api')
 
 class ApiHelp(Request):
 
     def get(self):
+        self.verifyUrl()
         self.response.headers['Cache-Control'] = settings.cache_control
         self.send(getPage('apihelp', 'view/apihelp.html'))
 

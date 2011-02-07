@@ -30,8 +30,8 @@ handlers:
 - url: /style
   static_dir: style
 
-- url: /static
-  static_dir: static
+- url: /images
+  static_dir: images
 
 - url: /favicon.ico
   static_files: media/2011-02-04-favicon.ico
