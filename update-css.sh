@@ -1,2 +1,2 @@
 #!/bin/sh
-yui-compressor style/haveabit.css > style/haveabitof.css
+yui-compressor style/haveabit.css > style/habXX.css
