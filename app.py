@@ -71,6 +71,9 @@ class QuotePage(Request):
         else:
             self.response.headers['Cache-Control'] = settings.long_cache_control
             next_quote = db.getNextQuote(quote)
+            meta_description = quote.text[:300].replace('\n', '. ')
+            if len(meta_description) >= 280:
+                meta_description = meta_description.rpartition(' ')[0] + ' ...'
             template_values = {
                 'author': author,
                 'teaser': quote.renderTeaser(),
@@ -80,7 +83,7 @@ class QuotePage(Request):
                 'quote_url': proper_url,
                 'next_quote': next_quote,
                 'next_quote_id': next_quote.key().id() if next_quote else None,
-                'meta_description': quote.text[:160].replace('\n', '; '),
+                'meta_description': meta_description,
                 'meta_keywords': ', '.join((quote.name, author.name, author.slug)),
                 'show_comments': show_comments,
             }
