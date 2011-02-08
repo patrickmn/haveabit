@@ -74,6 +74,7 @@ class QuotePage(Request):
             meta_description = quote.text[:300].replace('\n', '. ')
             if len(meta_description) >= 280:
                 meta_description = meta_description.rpartition(' ')[0] + ' ...'
+            meta_description = quoteattr(meta_description)
             template_values = {
                 'author': author,
                 'teaser': quote.renderTeaser(),
@@ -84,7 +85,7 @@ class QuotePage(Request):
                 'next_quote': next_quote,
                 'next_quote_id': next_quote.key().id() if next_quote else None,
                 'meta_description': meta_description,
-                'meta_keywords': ', '.join((quote.name, author.name, author.slug)),
+                'meta_keywords': quoteattr(', '.join((quote.name, author.name, author.slug))),
                 'show_comments': show_comments,
             }
             self.send(getPage('quote|%d%s' % (quote.key().id(), '|show_comments' if show_comments else ''), 'view/quote.html', template_values))
