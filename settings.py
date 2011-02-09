@@ -3,7 +3,7 @@ import os
 use_strftime = False
 strftime_format = '%b %e, %Y'
 cache_control = 'public, max-age=3600'       # Default browser Cache-Control for pages that might change
-long_cache_control = 'public, max-age=86400' # Default browser Cache-Control for pages that rarely change
+long_cache_control = 'public, max-age=7200'  # Default browser Cache-Control for pages that rarely change
 page_cache_duration = 2591999                # How many seconds to cache (static) rendered pages (max: 2591999)
 quotelist_cache_duration = 2591999           # How many seconds to cache lists of quotes (max: 2591999)
 # quotelist_cache_duration = 3600
