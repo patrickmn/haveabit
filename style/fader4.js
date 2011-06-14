@@ -10,7 +10,7 @@ $(function () {
 	$('#header').css({visibility: 'visible', opacity: 0}).fadeTo(1500, 1, function() {
 	    $('#teaser').css({visibility: 'visible', opacity: 0}).delay(100).fadeTo(1000, 1, null);
 	    $('#content').css({visibility: 'visible', opacity: 0}).delay(100).fadeTo(1000, 1, null);
-	    $('#footer').css({visibility: 'visible', opacity: 0}).delay(1500).fadeTo(1000, 1, null);
+	    $('#footer').css({visibility: 'visible', opacity: 0}).delay(1200).fadeTo(1000, 1, null);
 	});
 
 	$("a").click(function(event){
