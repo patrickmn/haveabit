@@ -2,27 +2,33 @@
 
 {% block title %}Have a Bit{% endblock %}
 
+{% block teaser %}
+<div id="left">
+<center><p>Be inspired by great people. Have a bit of...</p>
+<h2><a href="/random" title="Have a Bit of Random" rel="nofollow">Random</a></h2>
+
+<div id="authorlist">
+{% for author in authors %}
+<a href="/{{ author.slug }}" title="{{ author.name }} - {{ author.description }}" rel="nofollow"><img src="{{ author.img_url }}" width="150" height="200"></a>
+{% endfor %}
+</div>
+
+{% comment %}
+<div class="gallery vary">
+{% for author in authors %}
+<table>
+    <tr><td><a href="/{{ author.slug }}" title="{{ author.description }}" rel="nofollow"><img src="{{ author.img_url }}" width="150" height="200"></a></td></tr>
+    <tr><td class="caption">{{ author.name }}</td></tr>
+</table>
+{% endfor %}
+</div>
+{% endcomment %}
+
+</center></div>
+{% endblock %}
+
 {% block content %}
 <div id="left">
-<p>Be inspired by great people. Have a bit of:</p>
-<center><h2><a href="/random" title="Have a Bit of Random" rel="nofollow">Random</a></h2></center>
-<div id="authorlist">
-<div id="floatl">
-<ul>
-{% for author in author_list1 %}
-<li><a href="/{{ author.slug }}" title="{{ author.description }}" rel="nofollow">{{ author.name }}</a></li>
-{% endfor %}
-</ul>
-</div>
-<div id="floatr">
-<ul>
-{% for author in author_list2 %}
-<li><a href="/{{ author.slug }}" title="{{ author.description }}" rel="nofollow">{{ author.name }}</a></li>
-{% endfor %}
-</ul>
-</div>
-</div>
-<br clear="all" />
 <p>Tips:</p>
 <ul>
 <li>Hover over a name to see a description</li>

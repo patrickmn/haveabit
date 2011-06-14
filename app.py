@@ -20,11 +20,8 @@ class MainPage(Request):
             self.send(cached)
         else:
             authors = db.getAuthors()
-            split = len(authors) / 2
-            list1, list2 = authors[:split], authors[split:]
             template_values = {
-                'author_list1': list1,
-                'author_list2': list2,
+                'authors': authors,
             }
             self.send(getPage('index', 'view/index.html', template_values))
 

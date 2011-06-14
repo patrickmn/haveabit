@@ -50,24 +50,16 @@ div#floatl {
     width: 50%;
 }
 
-div#authorlist ul {
-/*
-  float: left;
-  width: 40em;
-  margin: 0;
-  padding: 0;
-*/
-  list-style: none;
+div#authorlist {
+    width: 80em;
 }
 
-div#authorlist li {
-/*
-  float: left;
-  width: 20em;
-  margin: 0;
-  padding: 0;
-*/
-}
+.gallery table { float: left; margin: 0 5px 20px 0; }
+.gallery table { border-collapse: collapse; }
+.gallery table td { padding: 0; }
+.gallery table caption { text-align: center; font-size: 80%; }
+.vary .caption { height: 4em; vertical-align: top; }
+.vary table { width: 150px; }
 
 div#header
 {
