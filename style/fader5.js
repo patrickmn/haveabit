@@ -13,7 +13,7 @@ $(function () {
 	    $('#footer').css({visibility: 'visible', opacity: 0}).delay(1200).fadeTo(1000, 1, null);
 	});
 
-	$("a").click(function(event){
+	$("a").click(function(event) {
 	    if (event.which == 1) {
 		event.preventDefault();
 		window.location = this.href;
@@ -24,7 +24,7 @@ $(function () {
 	});
 
 	// function redirectPage() {
-        //     window.location = linkLocation;
+	//     window.location = linkLocation;
 	// }
 
 	// $('#header').css({visibility: 'visible', opacity: 0}).fadeTo(1500, 1, null);
