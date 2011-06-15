@@ -9,7 +9,7 @@
 
 <div id="authorlist">
 {% for author in authors %}
-<a href="/{{ author.slug }}" title="{{ author.name }} - {{ author.description }}" rel="nofollow"><img src="{{ author.img_url }}" width="150" height="200"></a>
+<a href="/{{ author.slug }}" title="{{ author.name }} - {{ author.description }}" rel="nofollow"><img src="{{ author.img_url }}" width="150" height="200" class="imagedropshadow"></a>
 {% endfor %}
 </div>
 
@@ -17,7 +17,7 @@
 <div class="gallery vary">
 {% for author in authors %}
 <table>
-    <tr><td><a href="/{{ author.slug }}" title="{{ author.description }}" rel="nofollow"><img src="{{ author.img_url }}" width="150" height="200"></a></td></tr>
+    <tr><td><a href="/{{ author.slug }}" title="{{ author.description }}" rel="nofollow"><img src="{{ author.img_url }}" width="150" height="200" class="imagedropshadow"></a></td></tr>
     <tr><td class="caption">{{ author.name }}</td></tr>
 </table>
 {% endfor %}
