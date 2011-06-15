@@ -57,5 +57,9 @@ handlers:
   script: console/app/console.py
   login: admin
 
+- url: /cron/refreshcache
+  script: cron/refreshcache.py
+  login: admin
+
 - url: /.*
   script: app.py

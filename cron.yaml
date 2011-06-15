@@ -1,0 +1,4 @@
+cron:
+# - description: refreshcache
+#   url: /util
+#   schedule: every 2 minutes
