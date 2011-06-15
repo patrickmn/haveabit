@@ -12,10 +12,6 @@ $(function () {
 	    $('#content').css({visibility: 'visible', opacity: 0}).delay(100).fadeTo(1000, 1, null);
 	    $('#footer').css({visibility: 'visible', opacity: 0}).delay(1200).fadeTo(1000, 1, null);
 	});
-	// $('#header').css({visibility: 'visible', opacity: 0}).fadeTo(1500, 1, null);
-	// $('#teaser').css({visibility: 'visible', opacity: 0}).fadeTo(1500, 1, null);
-	// $('#content').css({visibility: 'visible', opacity: 0}).fadeTo(1500, 1, null);
-	// $('#footer').css({visibility: 'visible', opacity: 0}).fadeTo(1500, 1, null);
     });
 
     $(document).ready(function() {
@@ -24,27 +20,22 @@ $(function () {
 		e.preventDefault();
 		window.location = this.href;
 		$('body').fadeOut(500, null);
-		// linkLocation = this.href;
-		// $('body').fadeOut(1000, redirectPage);
 	    }
 	});
 
-	// function redirectPage() {
-	//     window.location = linkLocation;
-	// }
-
-        $('body').keypress(function(e) {
-            if (e.which == 114) {
+        $(window).keydown(function(e) {
+	    alert(e.which);
+            if (e.which == 82) {
 		// r
 		window.location = '/random';
 		$('body').fadeOut(500, null);
             }
-	    else if (e.which == 97) {
+	    else if (e.which == 65) {
 		// a
 		// window.location = '<author slug link>';
 		// $('body').fadeOut(500, null);
 	    }
-	    else if (e.which == 104) {
+	    else if (e.which == 72) {
 		// h
 		window.location = '/';
 		$('body').fadeOut(500, null);
