@@ -17,7 +17,6 @@
 
 {% if show_comments %}
 <div id="comments">
-{% comment %}<p><iframe src="http://www.facebook.com/plugins/like.php?href={{ quote_url }}&amp;layout=standard&amp;show_faces=false&amp;width=300&amp;action=like&amp;font=verdana&amp;colorscheme=light&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:300px; height:35px;" allowTransparency="true"></iframe></p>{% endcomment %}
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'haveabit';
@@ -37,4 +36,6 @@
 
 {% block footer %}
 {% if not show_comments %}<p><a href="?show_comments=1#comments" title="Show comments" rel="nofollow">Comments</a> | {% endif %}{% if next_quote %}<a href="{{ next_quote_id }}" title="{{ next_quote.name }}">More {{ author.name }}</a> | {% endif %}<a href="/random" title="Have a Bit of Random" rel="nofollow">Random</a> | <a href="/" title="Have a Bit">Back</a></p>
+
+<div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=228650060480044&amp;xfbml=1"></script><fb:like href="{{ quote_url }}" send="true" layout="button_count" width="90" show_faces="false" font="tahoma"></fb:like>
 {% endblock %}
